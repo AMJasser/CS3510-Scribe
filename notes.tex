@@ -62,6 +62,8 @@ bookmarksnumbered
 
 \usepackage{tikz}
 \usetikzlibrary{positioning}
+\usepackage{amsmath}
+\usepackage{xcolor}
 
 \begin{document}
 \begin{center}
@@ -205,6 +207,76 @@ $A(\omega^0),A(\omega^1),...,A(\omega^{n-1})$
 \textsf{NOTE: in the above algorithm, $r_j$ represents $A(\omega^j)$, and $r_{\frac{n}{2}+j}$ represents $A(\omega^{j+\frac{n}{2}})$}
 
 \section{Matrix View of FFT}
+\textsf{For a polynomial A(x), when we apply $FFT(a,\omega_n)$, we get $A(\omega_n^0),A(\omega_n^1),...,A(\omega_n^{n-1})$. The following is a matrix representation of the FFT algorithm.}
+
+\begin{enumerate}
+    \item For points $x_0, x_1, ..., x_{n-1}$
+\[
+\begin{bmatrix}
+    A(x_0) \\
+    A(x_1) \\
+    \vdots \\
+    A(x_{n-1})
+\end{bmatrix}
+=
+\begin{bmatrix}
+    1 & x_0 & x_0^2 & \dots & x_0^{n-1} \\
+    1 & x_1 & x_1^2 & \dots & x_1^{n-1} \\
+    \vdots & \vdots & \vdots & \ddots & \vdots \\
+    1 & x_{n-1} & x_{n-1}^2 & \dots & x_{n-1}^{n-1}
+\end{bmatrix}
+\begin{bmatrix}
+    a_0 \\
+    a_1 \\
+    \vdots \\
+    a_{n-1}
+\end{bmatrix}
+\]
+    \item $x_j=\omega_n^j$ for $j=0,...,n-1$
+\[
+\begin{bmatrix}
+    A(\omega_n^0) \\
+    A(\omega_n^1) \\
+    \vdots \\
+    A(\omega_n^{n-1})
+\end{bmatrix}
+=
+\textcolor{red}{
+\begin{bmatrix}
+    1 & 1 & 1 & \dots & 1 \\
+    1 & \omega_n & \omega_n^2 & \dots & \omega_n^{n-1} \\
+    \vdots & \vdots & \vdots & \ddots & \vdots \\
+    1 & \omega_n^{n-1} & \omega_n^{2(n-1)} & \dots & \omega_n^{(n-1)(n-1)}
+\end{bmatrix}}
+\textcolor{blue}{
+\begin{bmatrix}
+    a_0 \\
+    a_1 \\
+    \vdots \\
+    a_{n-1}
+\end{bmatrix}}
+\]
+\begin{center}
+$A=\textcolor{red}{M_n(\omega_n)}\textcolor{blue}{a}$
+\end{center}
+    \item Inverse FFT: $\textcolor{blue}{a}=\textcolor{red}{(M_n(\omega_n))^{-1}}A$
+
+    \begin{center}
+    \underline{Lemma} \\[10pt]
+    $(M_n(\omega_n))^{-1}=\frac{1}{n}M_n(\omega_n^{-1})$ \\[10pt]
+    $\omega_n=e^{\frac{2\pi{}i}{n}}$ \\
+    $\omega_n^{-1}=\omega_n^{n-1}=e^{\frac{2\pi{}i}{n}(n-1)}$ \\[10pt]
+    $m_n(\omega_n^{-1})=$
+\[
+\begin{bmatrix}
+    1 & 1 & 1 & \dots & 1 \\
+    1 & \omega_n^{-1} & \omega_n^{-2} & \dots & \omega_n^{-(n-1)} \\
+    \vdots & \vdots & \vdots & \ddots & \vdots \\
+    1 & \omega_n^{-(n-1)} & \omega_n^{-2(n-1)} & \dots & \omega_n^{-(n-1)(n-1)}
+\end{bmatrix}
+\]
+\end{center}
+\end{enumerate}
 
 %FOR SCRIBES: ---------- End Scribing, begin biblio -----------------
 %FOR SCRIBES: The first citation is just for telling you the style. Replace
