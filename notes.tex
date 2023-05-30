@@ -278,6 +278,92 @@ $A=\textcolor{red}{M_n(\omega_n)}\textcolor{blue}{a}$
 \end{center}
 \end{enumerate}
 
+\section{Inverse FFT}
+\noindent
+Inverse FFT(C)\\
+\textbf{Input:} \\
+ \(C(\omega^0), C(\omega^1), ..., C(\omega^{2n-1})\) is a set of point-values \\
+
+\vspace{10pt}
+
+\noindent
+\textbf{Output:} \\
+\(c = (c_0, c_1, ..., c_{2n-1})\)\\
+
+\vspace{10pt}
+
+\noindent
+\((S_0, S_1, ..., S_{2n-1}) = FFT(C, \omega_{2n}^{2n-1})\)\\
+return \(\frac{1}{n}(S_0, S_1, ..., S_{2n-1})\) \(\rightarrow{}\) co-efficients of polynomial C(x)\\
+
+\section{Example}
+
+
+\[A(x) = 3 + x, B(x) = 2 + 2x\]
+\noindent
+Find C(x), where C(x) = A(x)B(x).\\
+Based on the information of A(x) and B(X), we know that C(x) has degree of 2 (\(z^2\)) and will have 3 co-efficents. The power of 2 above 3 is 4 (\(2^2\)), so we will have 4 points of unity (\(\omega_4\)).\\
+\vspace{10pt}
+
+\noindent
+Let \(a = (3,1)\), which is the co-efficients of degree 0 and 1 of A(x).\\
+Let \(b = (2,2)\), which is the co-efficients of degree 0 and 1 of B(x).\\
+\vspace{10pt}
+
+\noindent
+Now we run FFT with the inputs \((3,1)\) and \( \omega_4\).\\
+\vspace{10pt}
+
+
+We know that \(a_{even} = (3)\) which corresponds to the 0th degree of a. We also know that \(a_{odd} = (1)\) which corresponds to the 1st degree of a. Both of these correspond to \(\omega_2\).
+
+
+\[FFT(a_{even}, \omega_{2}) = (3,3)\]
+\[FFT(a_{odd}, \omega_{2}) = (1,1)\]
+\noindent
+The result of these (3,3) correspond to \((s_0,\)  \( s_1)\) and (1,1) correspond to \((t_0, t_1)\).\\
+We can now calculate \((r_0, r_1, r_2,\) and \( r_3)\).\\
+Additionally, \(\omega^{n}\) corresponds to \((1, i, -1,\) and \(-i)\) for n = 0,1,2, and 3 respectively.\\
+\vspace{10pt}
+
+\noindent
+Remember that:
+\begin{itemize}
+        \item $r_j=s_j+\omega^jt_j$
+        \item $r_{\frac{n}{2}+j}=s_j-\omega^jt_j$
+    \end{itemize}
+So for a(x),
+
+\[r_0 = 3 + 1*1 = 4\]
+\[r_1 = 3 + i*1 = 3 + i\]
+\[r_2 = 3 - 1*1 = 2\]
+\[r_3 = 3 - i*1 = 3-i\]
+\noindent
+thus, \(a(x) = (4, 3+i, 2, 3-i)\).\\
+And for b(x),
+\[r_0 = 2 + 1 = 4\]
+\[r_1 = 2 + 2*i = 2 + 2i\]
+\[r_2 = 2 + 2*(-1) = 0\]
+\[r_3 = 2 + 2* (-i) = 2 - 2i\]
+\noindent
+thus,  \(b(x) = (4, 2+2i, 0, 2-2i)\).
+We can now multiply the two together to get c(x), so \(r_0\) from a(x) * \(r_0\) from b(x) to get \(r_0\) for c(x).
+\[r_0 = 4 * 4 = 16\]
+\[r_1 = (3 + i)*(2+2i) = 4+8i\]
+\[r_2 = 2 * 0 = 0\]
+\[r_3 = (3 - i)*(2-2i) = 4-8i\]
+This can now be run again on FFT, which looks like:
+
+\[FFT((16,4+8i, 0, 4-8i), \omega_{4}^{3})\]
+
+
+
+
+
+
+
+
+
 %FOR SCRIBES: ---------- End Scribing, begin biblio -----------------
 %FOR SCRIBES: The first citation is just for telling you the style. Replace
 %FOR SCRIBES: this with your citations if any. If there are no citations, just
